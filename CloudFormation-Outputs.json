@@ -1,0 +1,17 @@
+{
+  "Outputs": {
+    "AccessKeyforAccessKey": {
+      "Value": {
+        "Ref": "FlowLogsViewerUser105cAccessKey"
+      }
+    },
+    "SecretKeyforAccessKey": {
+      "Value": {
+        "Fn::GetAtt": [
+          "FlowLogsViewerUser105cAccessKey",
+          "SecretAccessKey"
+        ]
+      }
+    }
+  }
+}

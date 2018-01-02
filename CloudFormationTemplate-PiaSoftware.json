@@ -1,0 +1,157 @@
+{
+   "AWSTemplateFormatVersion": "2010-09-09",
+   "Metadata": {
+      "AWS::CloudFormation::Designer": {
+         "06fda684-8f02-4569-87a7-ffb5128d370f": {
+            "size": {
+               "width": 60,
+               "height": 60
+            },
+            "position": {
+               "x": 60,
+               "y": 120
+            },
+            "z": 1,
+            "embeds": [],
+            "dependson": [
+               "86e3274a-bd01-4e2e-a173-c04900ea90e7"
+            ]
+         },
+         "86e3274a-bd01-4e2e-a173-c04900ea90e7": {
+            "size": {
+               "width": 60,
+               "height": 60
+            },
+            "position": {
+               "x": 210,
+               "y": 120
+            },
+            "z": 1,
+            "embeds": [],
+            "dependson": [
+               "06fda684-8f02-4569-87a7-ffb5128d370f"
+            ]
+         },
+         "b97d81c5-d74a-4b81-bd58-0eaa2cfc9c67": {
+            "size": {
+               "width": 60,
+               "height": 60
+            },
+            "position": {
+               "x": 300,
+               "y": 120
+            },
+            "z": 1,
+            "embeds": []
+         },
+         "c12cf56d-0949-45cc-b96c-1f1da907d3b6": {
+            "size": {
+               "width": 60,
+               "height": 60
+            },
+            "position": {
+               "x": 60,
+               "y": 210
+            },
+            "z": 1,
+            "embeds": [],
+            "dependson": [
+               "86e3274a-bd01-4e2e-a173-c04900ea90e7"
+            ]
+         }
+      }
+   },
+   "Resources": {
+      "FlowLogsViewerIamPolicy": {
+         "Type": "AWS::IAM::Policy",
+         "Properties": {
+            "PolicyName": "FlowLogsViewerIamPolicy",
+            "Users": [
+               "FlowLogsViewerUser105c"
+            ],
+            "PolicyDocument": {
+               "Version": "2012-10-17",
+               "Statement": [
+                  {
+                     "Sid": "Stmt1441998815000",
+                     "Effect": "Allow",
+                     "Action": [
+                        "ec2:DescribeFlowLogs",
+                        "ec2:DescribeNetworkInterfaces",
+                        "ec2:DescribeRegions",
+                        "ec2:DescribeSecurityGroups",
+                        "ec2:DescribeInstances",
+                        "ec2:DescribeVpcs",
+                        "logs:DescribeLogGroups",
+                        "logs:DescribeLogStreams",
+                        "logs:GetLogEvents"
+                     ],
+                     "Resource": [
+                        "*"
+                     ]
+                  }
+               ]
+            }
+         },
+         "Metadata": {
+            "AWS::CloudFormation::Designer": {
+               "id": "06fda684-8f02-4569-87a7-ffb5128d370f"
+            }
+         },
+         "DependsOn": [
+            "FlowLogsViewerUser105c"
+         ]
+      },
+      "FlowLogsViewerUser105c": {
+         "Type": "AWS::IAM::User",
+         "Properties": {
+            "UserName": "FlowLogsViewerUser105c"
+         },
+         "Metadata": {
+            "AWS::CloudFormation::Designer": {
+               "id": "86e3274a-bd01-4e2e-a173-c04900ea90e7"
+            }
+         },
+         "DependsOn": []
+      },
+      "FlowLogViewerSecurityGroup": {
+         "Type": "AWS::EC2::SecurityGroup",
+         "Properties": {
+            "GroupDescription": "Allow http and https to FlowLogsViewer instance",
+            "SecurityGroupIngress": [
+               {
+                  "IpProtocol": "tcp",
+                  "ToPort": "80",
+                  "FromPort": "80",
+                  "CidrIp": "0.0.0.0/0"
+               },
+               {
+                  "IpProtocol": "tcp",
+                  "FromPort": "443",
+                  "ToPort": "443",
+                  "CidrIp": "127.0.0.1/32"
+               }
+            ]
+         },
+         "Metadata": {
+            "AWS::CloudFormation::Designer": {
+               "id": "b97d81c5-d74a-4b81-bd58-0eaa2cfc9c67"
+            }
+         }
+      },
+      "FlowLogsViewerUser105cAccessKey": {
+         "Properties": {
+            "UserName": "FlowLogsViewerUser105c"
+         },
+         "Type": "AWS::IAM::AccessKey",
+         "Metadata": {
+            "AWS::CloudFormation::Designer": {
+               "id": "c12cf56d-0949-45cc-b96c-1f1da907d3b6"
+            }
+         },
+         "DependsOn": [
+            "FlowLogsViewerUser105c"
+         ]
+      }
+   }
+}

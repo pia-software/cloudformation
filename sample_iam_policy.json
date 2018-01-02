@@ -1,0 +1,23 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "ec2:DescribeFlowLogs",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeRegions",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeInstances",
+                "ec2:DescribeVpcs",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:GetLogEvents"
+            ],
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow",
+            "Sid": "Stmt1441998815000"
+        }
+    ]
+}
