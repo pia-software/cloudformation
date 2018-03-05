@@ -1,6 +1,8 @@
 # cloudformation
 AWS Cloud Formation templates to start the Pia Software Flow Logs Viewer
 
+https://aws.amazon.com/marketplace/pp/B074N3YQ1P
+
 These will:
 * Create the IAM User needed for the flow logs viewer
 * Create an access key for that user
