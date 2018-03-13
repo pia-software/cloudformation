@@ -186,21 +186,6 @@
             ]
         }
     },
-    "Outputs": {
-        "AccessKeyforAccessKey": {
-            "Value": {
-                "Ref": "FlowLogsViewerUser106AccessKey"
-            }
-        },
-        "SecretKeyforAccessKey": {
-            "Value": {
-                "Fn::GetAtt": [
-                    "FlowLogsViewerUser106AccessKey",
-                    "SecretAccessKey"
-                ]
-            }
-        }
-    },
     "Parameters": {
         "myKeyPair": {
             "Description": "Amazon EC2 Key Pair",
@@ -220,3 +205,4 @@
         }
     }
 }
+
