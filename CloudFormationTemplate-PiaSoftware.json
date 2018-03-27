@@ -158,7 +158,9 @@
         "FlowLogsViewerInstance106": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
-                "InstanceType": "t2.micro",
+                "InstanceType": {
+                    "Ref": "myInstanceType"
+                },
                 "SecurityGroupIds" : [{ "Ref" : "FlowLogViewerSecurityGroup" }],
                 "SubnetId": {
                     "Ref": "mySubnetID"
@@ -202,6 +204,14 @@
         "mySubnetID": {
             "Description": "The Subnet to launch the viewer into",
             "Type": "AWS::EC2::Subnet::Id"
+        },
+        "myInstanceType": {
+            "Description": "Choose an instance type. t2.micro is recommended.",
+            "Type" : "String",
+            "Default" : "t2.micro",
+            "AllowedValues" : [ "t2.nano", "t2.micro", "t2.small", "t2.medium", "t2.large", "c4.large", "c5.large",
+                "m5.large", "r4.large", "c3.large", "i3.large", "m3.medium", "m3.large", "m4.large", "r3.large"],
+            "ConstraintDescription" : "must be a valid EC2 instance type."
         }
     }
 }
