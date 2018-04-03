@@ -1,0 +1,81 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "fe7acb78-e374-404b-9bbb-ce87fd8ff9ae": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 103.00570678710938,
+                    "y": 128.01705169677734
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "b31c7ae2-6906-4d5f-af9c-818c75890c6b": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 100,
+                    "y": 40
+                },
+                "z": 0,
+                "embeds": []
+            }
+        }
+    },
+    "Resources": {
+        "FlowLogsViewerIamPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "FlowLogsViewerIamPolicy",
+                "Users": [
+                    "FlowLogsViewerUser106"
+                ],
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "Stmt1441998815000",
+                            "Effect": "Allow",
+                            "Action": [
+                                "ec2:DescribeFlowLogs",
+                                "ec2:DescribeNetworkInterfaces",
+                                "ec2:DescribeRegions",
+                                "ec2:DescribeSecurityGroups",
+                                "ec2:DescribeInstances",
+                                "ec2:DescribeVpcs",
+                                "logs:DescribeLogGroups",
+                                "logs:DescribeLogStreams",
+                                "logs:GetLogEvents"
+                            ],
+                            "Resource": [
+                                "*"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "b31c7ae2-6906-4d5f-af9c-818c75890c6b"
+                }
+            }
+        },
+        "FlowLogsViewerUser106": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "UserName": "FlowLogsViewerUser106"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "fe7acb78-e374-404b-9bbb-ce87fd8ff9ae"
+                }
+            }
+        }
+    }
+}
