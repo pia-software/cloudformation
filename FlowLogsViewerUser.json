@@ -24,7 +24,10 @@
                     "y": 40
                 },
                 "z": 0,
-                "embeds": []
+                "embeds": [],
+                "isassociatedwith": [
+                    "fe7acb78-e374-404b-9bbb-ce87fd8ff9ae"
+                ]
             }
         }
     },
@@ -64,7 +67,10 @@
                 "AWS::CloudFormation::Designer": {
                     "id": "b31c7ae2-6906-4d5f-af9c-818c75890c6b"
                 }
-            }
+            },
+            "DependsOn": [
+                "FlowLogsViewerUser106"
+            ]
         },
         "FlowLogsViewerUser106": {
             "Type": "AWS::IAM::User",
