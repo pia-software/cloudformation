@@ -1,6 +1,5 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Metadata": {},
     "Mappings": {
         "RegionMap": {
             "ap-northeast-1": {
@@ -82,11 +81,6 @@
                     ]
                 }
             },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "06fda684-8f02-4569-87a7-ffb5128d370f"
-                }
-            },
             "DependsOn": [
                 "FlowLogsViewerUser106"
             ]
@@ -95,11 +89,6 @@
             "Type": "AWS::IAM::User",
             "Properties": {
                 "UserName": "FlowLogsViewerUser106"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "86e3274a-bd01-4e2e-a173-c04900ea90e7"
-                }
             },
             "DependsOn": []
         },
@@ -135,22 +124,12 @@
                     }
                 ]
             },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "b97d81c5-d74a-4b81-bd58-0eaa2cfc9c67"
-                }
-            }
         },
         "FlowLogsViewerUser106AccessKey": {
             "Properties": {
                 "UserName": "FlowLogsViewerUser106"
             },
             "Type": "AWS::IAM::AccessKey",
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "c12cf56d-0949-45cc-b96c-1f1da907d3b6"
-                }
-            },
             "DependsOn": [
                 "FlowLogsViewerUser106"
             ]
@@ -176,11 +155,6 @@
                         },
                         "64"
                     ]
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "9285a51b-5859-4b36-a774-b2653276c3b3"
                 }
             },
             "DependsOn": [
