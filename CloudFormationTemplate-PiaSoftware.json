@@ -1,10 +1,10 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Example for PiaSoft Flow Logs Viewer",
+    "Description": "PiaSoft Flow Logs Viewer v1.10 Setup Template",
     "Mappings": {
         "RegionMap": {
             "us-east-1": {
-                "AMI": "ami-bb4b74c4"
+                "AMI": "ami-070045d8314971825"
             },
             "us-east-2": {
                 "AMI": ""
@@ -51,7 +51,7 @@
         }
     },
     "Parameters": {
-        "myIPCIDR": {
+        "inboundSGCIDR": {
             "Description": "CIDR block for inbound security group ALLOW access to viewer. ex 192.168.1.1/32",
             "Type": "String",
             "AllowedPattern": "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}/[0-9]{1,2}",
@@ -93,7 +93,7 @@
         }
     },
     "Resources": {
-        "PiaSoftFlow": {
+        "PiaSoftFlowLogs": {
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "InstanceInitiatedShutdownBehavior": "stop",
@@ -128,7 +128,7 @@
                 }
             },
             "DependsOn": [
-                "PiaSoftFlowIAMRole"
+                "PiaSoftFlowLogsIAMRole"
             ]
         },
         "PiaSoftSecurityGroup": {
@@ -143,7 +143,7 @@
                     "FromPort": "80",
                     "ToPort": "80",
                     "CidrIp": {
-                        "Ref" : "myIPCIDR"
+                        "Ref" : "inboundSGCIDR"
                     }
                 },
                     {
@@ -151,7 +151,7 @@
                         "FromPort": "443",
                         "ToPort": "443",
                         "CidrIp": {
-                            "Ref" : "myIPCIDR"
+                            "Ref" : "inboundSGCIDR"
                         }
                     },
                     {
@@ -159,13 +159,13 @@
                         "FromPort": "22",
                         "ToPort": "22",
                         "CidrIp": {
-                            "Ref" : "myIPCIDR"
+                            "Ref" : "inboundSGCIDR"
                         }
                     }
                 ]
             }
         },
-        "PiaSoftFlowIAMRole": {
+        "PiaSoftFlowLogsIAMRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -185,10 +185,10 @@
                 "Path": "/"
             }
         },
-        "PiaSoftFlowPolicy": {
+        "PiaSoftFlowLogsPolicy": {
             "Type": "AWS::IAM::Policy",
             "Properties": {
-                "PolicyName": "PiaSoftFlowPolicy",
+                "PolicyName": "PiaSoftFlowLogsPolicy",
                 "PolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [{
@@ -208,7 +208,7 @@
                     }]
                 },
                 "Roles": [{
-                    "Ref": "PiaSoftFlowIAMRole"
+                    "Ref": "PiaSoftFlowLogsIAMRole"
                 }]
             }
         },
@@ -217,7 +217,7 @@
             "Properties": {
                 "Path": "/",
                 "Roles": [{
-                    "Ref": "PiaSoftFlowIAMRole"
+                    "Ref": "PiaSoftFlowLogsIAMRole"
                 }]
             }
         }
