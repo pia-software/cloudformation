@@ -1,0 +1,244 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "PiaSoft Flow Logs Viewer v1.13 Setup Template",
+    "Mappings": {
+        "RegionMap": {
+            "us-east-1": {
+                "AMI": "ami-04870d896c59c2260"
+            },
+            "us-east-2": {
+                "AMI": ""
+            },
+            "us-west-1": {
+                "AMI": ""
+            },
+            "us-west-2": {
+                "AMI": ""
+            },
+            "ca-central-1": {
+                "AMI": ""
+            },
+            "eu-central-1": {
+                "AMI": ""
+            },
+            "eu-west-1": {
+                "AMI": ""
+            },
+            "eu-west-2": {
+                "AMI": ""
+            },
+            "eu-west-3": {
+                "AMI": ""
+            },
+            "ap-southeast-1": {
+                "AMI": ""
+            },
+            "ap-southeast-2": {
+                "AMI": ""
+            },
+            "ap-south-1": {
+                "AMI": ""
+            },
+            "ap-northeast-1": {
+                "AMI": ""
+            },
+            "ap-northeast-2": {
+                "AMI": ""
+            },
+            "sa-east-1": {
+                "AMI": ""
+            }
+        }
+    },
+    "Parameters": {
+        "inboundSGCIDR": {
+            "Description": "CIDR block for inbound security group ALLOW access to viewer. ex 192.168.1.1/32",
+            "Type": "String",
+            "AllowedPattern": "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}/[0-9]{1,2}",
+            "ConstraintDescription": "Please specify a valid source IP range. Eg: 192.168.1.1/32"
+        },
+        "InstanceType": {
+            "Description": "EC2 Instance type",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small",
+                "t2.medium",
+                "t2.large",
+                "t3.micro",
+                "t3.small",
+                "t3.medium",
+                "t3.large",
+                "m3.medium",
+                "m3.large",
+                "m4.large",
+                "m5.large",
+                "m5d.large",
+                "c3.large",
+                "c4.large",
+                "c5.large",
+                "c5d.large",
+                "c5n.large",
+                "r3.large",
+                "r4.large",
+                "r5.large",
+                "r5d.large",
+                "z1d.large",
+                "i3.large",
+                "i3en.large",
+                "r5a.large",
+                "r5ad.large",
+                "t3a.micro",
+                "t3a.small",
+                "t3a.medium",
+                "t3a.large",
+                "c5n.large",
+                "m5ad.large"
+            ],
+            "ConstraintDescription": "Must be a valid EC2 instance type."
+        },
+        "SSHKey": {
+            "Description": "SSH Key pair to be installed on instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "VPCId": {
+            "Description": "VPC Id where Instance should be installed",
+            "Type": "AWS::EC2::VPC::Id"
+        },
+        "SubnetId": {
+            "Description": "VPC Subnet used for instance",
+            "Type": "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Resources": {
+        "PiaSoftFlowLogs": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "InstanceInitiatedShutdownBehavior": "stop",
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "SubnetId": {
+                    "Ref": "SubnetId"
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Ref": "SSHKey"
+                },
+                "Monitoring": "False",
+                "Tags": [{
+                    "Key": "Name",
+                    "Value": "PiaSoft Flow Logs Viewer"
+                }],
+                "SecurityGroupIds": [{
+                    "Ref": "PiaSoftSecurityGroup"
+                }],
+                "IamInstanceProfile": {
+                    "Ref": "PiaSoftInstanceProfile"
+                }
+            },
+            "DependsOn": [
+                "PiaSoftFlowLogsIAMRole"
+            ]
+        },
+        "PiaSoftSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "PiaSoft Flow Logs Viewer security group",
+                "VpcId": {
+                    "Ref": "VPCId"
+                },
+                "SecurityGroupIngress": [{
+                    "IpProtocol": "tcp",
+                    "FromPort": "80",
+                    "ToPort": "80",
+                    "CidrIp": {
+                        "Ref" : "inboundSGCIDR"
+                    }
+                },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": {
+                            "Ref" : "inboundSGCIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Ref" : "inboundSGCIDR"
+                        }
+                    }
+                ]
+            }
+        },
+        "PiaSoftFlowLogsIAMRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": [
+                                "ec2.amazonaws.com"
+                            ]
+                        },
+                        "Action": [
+                            "sts:AssumeRole"
+                        ]
+                    }]
+                },
+                "Path": "/"
+            }
+        },
+        "PiaSoftFlowLogsPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "PiaSoftFlowLogsPolicy",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Action": [
+                            "ec2:DescribeFlowLogs",
+                            "ec2:DescribeNetworkInterfaces",
+                            "ec2:DescribeRegions",
+                            "ec2:DescribeSecurityGroups",
+                            "ec2:DescribeInstances",
+                            "ec2:DescribeVpcs",
+                            "logs:DescribeLogGroups",
+                            "logs:DescribeLogStreams",
+                            "logs:GetLogEvents"
+                        ],
+                        "Resource": "*"
+                    }]
+                },
+                "Roles": [{
+                    "Ref": "PiaSoftFlowLogsIAMRole"
+                }]
+            }
+        },
+        "PiaSoftInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [{
+                    "Ref": "PiaSoftFlowLogsIAMRole"
+                }]
+            }
+        }
+    }
+}
