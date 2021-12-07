@@ -1,10 +1,10 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "PiaSoft Flow Logs Viewer v1.10 Setup Template",
+    "Description": "PiaSoft Flow Logs Viewer v1.43 Setup Template",
     "Mappings": {
         "RegionMap": {
             "us-east-1": {
-                "AMI": "ami-0597c9d5e3ee929e1"
+                "AMI": "ami-0cbbac1afe81a3669"
             },
             "us-east-2": {
                 "AMI": ""
